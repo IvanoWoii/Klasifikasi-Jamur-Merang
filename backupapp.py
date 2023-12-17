@@ -15,7 +15,12 @@ class WebcamApp:
         self.window = window
         self.window.title(window_title)
         
-        title_label = tk.Label(root, text="Aplikasinya ADHE WAHYU TRILAKSANA", font=("Arial", 16))
+         # Buat label yang menutupi seluruh area aplikasi dan tempatkan gambar di dalamnya
+        self.bg_image = tk.PhotoImage(file="background/bgg.png")  # Gantilah dengan path gambar yang sesuai
+        self.bg_label = tk.Label(self.window, image=self.bg_image)
+        self.bg_label.place(relwidth=1, relheight=1)
+        
+        title_label = tk.Label(root, text="Aplikasi Klasifikasi Jamur Merang", font=("Arial", 21, "bold"))
         title_label.pack(pady=10)
 
         # Frame 1: Video dan Tombol Start/Stop
@@ -23,9 +28,15 @@ class WebcamApp:
         self.video_frame.pack(side=tk.LEFT, padx=10, pady=10)
         self.canvas = tk.Canvas(self.video_frame, width=320, height=240, bg="white", highlightthickness=1, highlightbackground="black")  # Mengatur ukuran canvas video webcam
         self.canvas.pack()
-        self.start_button = ttk.Button(self.video_frame, text="Start", command=self.start, style="Start.TButton")
+        
+        start_image = tk.PhotoImage(file="icon/start.png")
+        self.start_button = ttk.Button(self.video_frame, text="Start", command=self.start, style="Start.TButton", image=start_image, compound=tk.LEFT)
+        self.start_button.image = start_image 
         self.start_button.pack(side=tk.LEFT, pady=5)
-        self.stop_button = ttk.Button(self.video_frame, text="Stop", command=self.stop, style="Stop.TButton")
+        
+        stop_image = tk.PhotoImage(file="icon/stop.png")
+        self.stop_button = ttk.Button(self.video_frame, text="Stop", command=self.stop, style="Stop.TButton", image=stop_image, compound=tk.LEFT)
+        self.stop_button.image = stop_image
         self.stop_button.pack(side=tk.RIGHT,pady=5)
 
         # Frame 2: Canvas Capture dan Tombol Capture
@@ -33,7 +44,9 @@ class WebcamApp:
         self.capture_frame.pack(side=tk.LEFT, padx=10, pady=10)
         self.capture_canvas = tk.Canvas(self.capture_frame, width=320, height=240, bg="white", highlightthickness=1, highlightbackground="black")  # Mengatur ukuran canvas capture
         self.capture_canvas.pack()
-        self.capture_button = ttk.Button(self.capture_frame, text="Capture", command=self.capture, style="Capture.TButton")
+        capute_image = tk.PhotoImage(file="icon/capture.png")
+        self.capture_button = ttk.Button(self.capture_frame, text="Capture", command=self.capture, style="Capture.TButton", image=capute_image, compound=tk.LEFT)
+        self.caputre_button = capute_image
         self.capture_button.pack(pady=5)
         
         self.result_frame = tk.LabelFrame(window, text="Hasil Klasifikasi", bg="lightgray", padx=12, pady=12, font=("Arial", 12))
@@ -55,7 +68,7 @@ class WebcamApp:
         self.knn_model = None
         
         # Inisialisasi koneksi serial dengan Arduino
-        self.ser = serial.Serial('COM7', 9600)
+        # self.ser = serial.Serial('COM7', 9600)
 
 
     def start(self):
@@ -97,8 +110,8 @@ class WebcamApp:
             predicted_label = self.knn_model.predict([img_features])
             predicted_proba = self.knn_model.predict_proba([img_features])
             
-            arduino_command = 'A' if predicted_label[0] == 0 else 'B'
-            self.ser.write(arduino_command.encode())
+            # arduino_command = 'A' if predicted_label[0] == 0 else 'B'
+            # self.ser.write(arduino_command.encode())
             
             return predicted_label[0], predicted_proba[0]
         else:
@@ -211,15 +224,15 @@ class WebcamApp:
                     self.canvas.create_image(0, 0, image=photo, anchor=tk.NW)
                     self.canvas.image = photo
                     
-                    arduino_data = self.ser.readline().decode().strip()
-                    try:
-                        distance = int(arduino_data)
-                        if 0 <= distance <=18:
-                            self.capture()
+                    # arduino_data = self.ser.readline().decode().strip()
+                    # try:
+                    #     distance = int(arduino_data)
+                    #     if 0 <= distance <=18:
+                    #         self.capture()
                             
                             
-                    except ValueError:
-                        print("ERORR INVALID DATA DARI ARDUINO")
+                    # except ValueError:
+                    #     print("ERORR INVALID DATA DARI ARDUINO")
             # Call the update function recursively after a delay
             self.window.after(10, self.update)
 
