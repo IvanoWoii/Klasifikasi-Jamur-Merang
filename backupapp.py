@@ -16,15 +16,15 @@ class WebcamApp:
         self.window.title(window_title)
         
          # Buat label yang menutupi seluruh area aplikasi dan tempatkan gambar di dalamnya
-        self.bg_image = tk.PhotoImage(file="background/bgg.png")  # Gantilah dengan path gambar yang sesuai
+        self.bg_image = tk.PhotoImage(file="background/bgwarna.png")  # Gantilah dengan path gambar yang sesuai
         self.bg_label = tk.Label(self.window, image=self.bg_image)
         self.bg_label.place(relwidth=1, relheight=1)
         
-        title_label = tk.Label(root, text="Aplikasi Klasifikasi Jamur Merang", font=("Arial", 21, "bold"))
+        title_label = tk.Label(root, text="Aplikasi Klasifikasi Jamur Merang", font=("Arial", 21, "bold"), bg="#1B4242", fg="white")
         title_label.pack(pady=10)
 
         # Frame 1: Video dan Tombol Start/Stop
-        self.video_frame = tk.Frame(window, bg="lightgreen", padx=10, pady=10,relief=tk.GROOVE, bd=3)
+        self.video_frame = tk.Frame(window, bg="#1B4242", padx=10, pady=10,relief=tk.GROOVE, bd=3)
         self.video_frame.pack(side=tk.LEFT, padx=10, pady=10)
         self.canvas = tk.Canvas(self.video_frame, width=320, height=240, bg="white", highlightthickness=1, highlightbackground="black")  # Mengatur ukuran canvas video webcam
         self.canvas.pack()
@@ -40,7 +40,7 @@ class WebcamApp:
         self.stop_button.pack(side=tk.RIGHT,pady=5)
 
         # Frame 2: Canvas Capture dan Tombol Capture
-        self.capture_frame = tk.Frame(window, bg="lightgreen", padx=10, pady=10,relief=tk.GROOVE, bd=3)
+        self.capture_frame = tk.Frame(window, bg="#1B4242", padx=10, pady=10,relief=tk.GROOVE, bd=3)
         self.capture_frame.pack(side=tk.LEFT, padx=10, pady=10)
         self.capture_canvas = tk.Canvas(self.capture_frame, width=320, height=240, bg="white", highlightthickness=1, highlightbackground="black")  # Mengatur ukuran canvas capture
         self.capture_canvas.pack()
@@ -53,6 +53,9 @@ class WebcamApp:
         self.result_frame.pack(side=tk.LEFT, padx=10, pady=10)
         self.result_label = tk.Label(self.result_frame, text="Belum ada hasil", font=("Arial", 12), bg="lightgray")
         self.result_label.pack()
+        
+        mahasiswa_label = tk.Label(self.window, text="Teams:\n Hendrick Hardiansah\nAdhe Wahyu Trilaksana\nM Reza Ivano Pahlevi P.\nEga Syahrul Ramadhanto\nAkbar Firmansyah", font=("Arial", 10), fg="#092635", bg="#9EC8B9")
+        mahasiswa_label.place(x=10, y=90)
         
         # Inisialisasi gaya tombol
         self.style = ttk.Style()
